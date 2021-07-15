@@ -1,0 +1,797 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+standalonecomplex
+-->
+
+<html>
+<head>	
+<title>{Title}{block:PostSummary} {PostSummary}{/block:PostSummary}</title>
+<meta charset="utf-8">
+<meta name="description" content="{block:IndexPage}{block:Description}{MetaDescription}{/block:Description}{/block:IndexPage}{block:PermalinkPage}{block:PostSummary}{PostSummary}{/block:PostSummary}{/block:PermalinkPage}" />
+
+<!-- appearance options -->
+
+<meta name="color:Background Color" content="#ffffff" />
+<meta name="color:Page Background Color" content="#ffffff" />
+<meta name="color:Body Color" content="#333333" />
+<meta name="color:Link Color" content="#333333" />
+<meta name="color:Link Hover Color" content="#999999" />
+<meta name="color:Meta Color" content="#999999" />
+<meta name="color:Meta Hover Color" content="#333333" />
+<meta name="color:Separator Color" content="#bebebe" />
+<meta name="color:Navigation Color" content="#999999" />
+<meta name="color:Navigation Hover Color" content="#333333" />
+<meta name="image:Header" content="" />
+<meta name="font:Body Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
+<meta name="font:Heading Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
+<meta name="font:Meta Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
+<meta name="if:Show Header" content="1" />
+<meta name="if:Show Blog Title" content="1" />
+<meta name="if:Show Blog Description" content="1" />
+<meta name="if:Show Pages In Header" content="1" />
+<meta name="if:Show Archive In Header" content="1" />
+<meta name="if:Show RSS In Header" content="1" />
+<meta name="if:Show Post Text" content="1" />	
+<meta name="if:Show Post Captions" content="1" />	
+<meta name="if:Show Post Descriptions" content="1" />	
+<meta name="if:Show Post Meta" content="1" />
+<meta name="if:Show Date In Posts" content="1" />
+<meta name="if:Show Tags In Posts" content="1" />
+<meta name="if:Show Post Tags" content="1"/>
+<meta name="if:Show Note Count In Posts" content="1" />
+<meta name="if:Show Content Source In Posts" content="1" />
+<meta name="if:Show Notes In Posts" content="0" />
+<meta name="if:Show Album Art" content="1" />
+<meta name="if:Show Post Separator" content="0" />
+<meta name="if:Show Bottom" content="1" />
+<meta name="if:Show Endless Scrolling" content="1" />
+<meta name="if:Show Image Hover Effect" content="1" />
+<meta name="if:Show Heading In Uppercase" content="0" />
+<meta name="if:Show Heading In Bold" content="0" />
+<meta name="if:Show Scroll To Top Button" content="1" />
+<meta name="if:Show Webkit Scroll Bar" content="1" />
+<meta name="if:Center Align Page" content="0" />
+<meta name="if:Center Align Text" content="0" />
+<meta name="text:Body Font Size" content="18" />
+<meta name="text:Body Line Height" content="22" />
+<meta name="text:Paragraph Spacing" content="10" />
+<meta name="text:Heading Font Size" content="24" />
+<meta name="text:Heading Line Height" content="26" />
+<meta name="text:Meta Font Size" content="14" />
+<meta name="text:Meta Line Height" content="18" />
+<meta name="text:Media Spacing" content="0" />
+<meta name="text:Separator Thickness" content="1" />
+<meta name="text:Separator Spacing" content="20" />
+<meta name="text:Page Padding" content="40" />
+<meta name="text:Page Width" content="1100" />
+<meta name="text:Column Width" content="1100" />
+<meta name="text:Webkit Scrollbar Width" content="15" />
+<!--<meta name="text:Bottom Copy" content='Running on <a href="https://thedefaultnetwork.tumblr.com/">The Default Network</a> '/>-->
+
+<!--	links	-->
+
+<link rel="shortcut icon" href="{Favicon}" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}"/>
+
+<!--	theme css	-->
+
+<style type="text/css" media="screen">
+
+/*	reset	*/
+
+html,body,p,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}:focus{outline:0;}
+
+/*	base styles		*/
+
+html{
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust:none;
+	}
+body{
+	font:{text:Body Font Size}px {font:Body Font};
+	line-height:{text:Body Line Height}px;
+	color:{color:Body Color};
+	background:{color:Background Color};
+	padding:{text:Page Padding};
+	}
+
+	{block:IfCenterAlignPage}
+	body{
+/*	text-align:center;	*/
+	}
+	{/block:IfCenterAlignPage}
+
+p{
+	margin-top:25px;
+	margin-bottom:25px;
+	}
+
+.heading{
+	font:{text:Heading Font Size}px {font:Heading Font};
+	line-height:{text:Heading Line Height}px;
+	margin-bottom:5px;
+	}
+{block:IfShowHeadingInUppercase}.heading{ text-transform:uppercase; }{/block:IfShowHeadingInUppercase}
+{block:IfShowHeadingInBold}.heading{ font-weight:bold; }{/block:IfShowHeadingInBold}
+
+
+	.description{
+		font:{text:Description Font Size}px {font:Description Font};
+		line-height:{text:Description Line Height}px;
+		font-weight:normal;
+		}
+			.meta,
+			.sig{
+			font:{text:Meta Font Size}px {font:Meta Font};
+			color:{color:Meta Color};
+			line-height:{text:Meta Line Height}px;
+			font-weight:normal;
+			margin-right:5px;
+			}
+				.meta{
+				display:inline;
+				}
+z{
+    color: #222;
+    -webkit-transition: 0.5s;
+     -moz-transition: 0.5s;
+     -o-transition: 0.5s;
+     -ms-transition: 0.5s;
+     transition: 0.5s;
+}
+ 
+z:hover {
+    color: #fff;
+    text-shadow: -1px 1px 5px #ddd, 1px -1px 5px #fff;
+}
+	a,
+	a:visited{
+	    
+	        color:{color:Link Color};
+    -webkit-transition: 0.5s;
+     -moz-transition: 0.5s;
+     -o-transition: 0.5s;
+     -ms-transition: 0.5s;
+     transition: 0.5s;
+	    
+	    
+	    
+	text-decoration:underline; 
+	color:{color:Link Color}; 
+	}
+	a:hover{
+	    
+	    
+	     color: #fff;
+    text-shadow: -1px 1px 5px #ddd, 1px -1px 5px #fff;
+	    
+	    
+	    
+	color:{color:Link Hover Color}; 
+	}
+	{block:IfShowImageHoverEffect}
+	a img{
+	-webkit-transition: opacity 0.2s;
+	-o-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	}
+	a img:hover{
+	filter:alpha(opacity=80);
+	-moz-opacity:.80;
+	opacity:.80;
+	}
+	{/block:IfShowImageHoverEffect}
+		.heading a{
+		text-decoration:none;
+		font-family: georgia, serif;
+        font color:#ddd;
+        font-size:35px;
+        line-height:1.2em;
+		}
+			.meta a,
+			.sig a{
+			color:{color:Meta Color};
+			}
+			.meta a:hover,
+			.sig a:hover{
+			color:{color:Meta Hover Color};
+			}
+				a.tag{
+				text-transform:capitalize;
+				}
+					a.scroll{
+					display:block;
+					width:40px; height:40px; 
+					background-color:transparent;
+                    background:url(https://static.tumblr.com/dt4ynlt/dFknhz2ib/bkt.png) no-repeat center center;
+                    outline: none;
+					
+					-moz-border-radius-topleft:10px;-moz-border-radius-topright:10px; -moz-border-radius-bottomright:0px; -moz-border-radius-bottomleft:0px; -webkit-border-top-left-radius:10px; -webkit-border-top-right-radius:10px; -webkit-border-bottom-right-radius:0px; -webkit-border-bottom-left-radius:0px;
+					border-top-left-radius:10px;
+					border-top-right-radius:10px; border-bottom-right-radius:0px; 
+					border-bottom-left-radius:0px;
+					}
+					a.scroll:hover{
+						background-color:transparent;
+                    background:url(https://static.tumblr.com/dt4ynlt/dFknhz2ib/bkt.png) no-repeat center center;
+					}
+						a.prev{
+						margin-right:5px;
+						}
+							:focus{
+							-moz-outline-style:none;
+							}
+							
+							.blogtitle{
+	font:90px {font:Heading Font};
+	text-decoration:none;
+	margin-bottom:5px;
+	font-weight:bold; 
+	margin-left:-10px;
+	}
+							
+	ul{
+	list-style-type:disc;
+	list-style-position:inside;
+		margin-top:15px; 
+	margin-bottom:15px; 
+	}
+		ol{
+		list-style-type:decimal;
+		list-style-position:inside;
+		margin-bottom:15px; 
+		}
+			.notes ul, .notes ol{
+			list-style:none;
+			margin-bottom:0px;
+			}
+				blockquote{
+				border-left:solid 0px {color:Body Color};
+				padding-left:15px;
+				margin-bottom:15px;
+				}
+					li.note.more_notes_link_container{
+					padding-top:30px;
+					text-align:left;
+					}
+
+	#wrapper{
+	background:{color:Page Background Color};
+	max-width:{text:Page Width}px; 
+	}
+
+	{block:IfShowBottom}
+	#wrapper{
+	padding:{text:Page Padding}px {text:Page Padding}px 0px {text:Page Padding}px;
+	}
+	{/block:IfShowBottom}	
+
+	{block:IfNotShowBottom}
+	#wrapper{
+	padding:{text:Page Padding}px;
+	}
+	{/block:IfNotShowBottom}
+
+	{block:IfCenterAlignPage}
+	#wrapper{
+	margin: 0px auto;
+	}
+	{/block:IfCenterAlignPage}
+
+		.row{
+		width:100%; 
+		padding-bottom:30px;
+		}
+			.col{
+			width:100%; 
+			max-width:{text:Column Width}px; 
+			margin-bottom:10px;
+			}
+			
+			{block:IfCenterAlignPage}
+			.col{
+			margin: 0px Auto;
+			}
+			{/block:IfCenterAlignPage}
+
+			{block:IfCenterAlignText}
+			.col{
+			text-align:center;
+			}
+			{/block:IfCenterAlignText}
+			
+				.headerimage{
+				width:100%;
+				max-width:{text:Page Width}px;
+				margin-bottom:20px;
+				}
+					.post{
+					}
+						.media{
+						margin-bottom:10px;
+						}
+
+						{block:IfCenterAlignPage}
+						.media {
+						margin: 0px auto;
+						}
+						{/block:IfCenterAlignPage}
+
+							.postmeta{
+							max-width:{text:Column Width}px;
+					
+							}
+							
+								.bottom{
+								background:{color:Page Background Color};
+								padding:0px 0px {text:Page Padding}px 0px;
+								}
+								
+								{block:IfNotCenterAlignPage}
+								.bottom{
+								max-width:{text:Page Width}px;
+								margin:0 {text:Page Padding}px 0 {text:Page Padding}px;
+								}
+								{/block:IfNotCenterAlignPage}
+								
+								{block:IfCenterAlignPage}
+								.bottom{
+								max-width:{text:Page Width}px;
+								margin: 0px auto;
+								}
+								{/block:IfCenterAlignPage}
+
+	img {
+	max-width:100%;
+	height:auto;
+	display:block;
+	}
+	
+	{block:IfCenterAlignPage}
+	img {
+	margin:25px auto;
+	}
+	{/block:IfCenterAlignPage}
+	
+		img.avatar{
+		display:none !important;
+		}
+			#infscr-loading img{
+			display:none !important;
+			}
+				.audio{
+				max-width:300px;
+				}
+					.audio img{
+					width:300px;
+					}
+		.navup{
+		position:fixed;
+		bottom:{text:Page Padding}px;
+		right:{text:Page Padding}px;
+		z-index:9999;
+		}
+			.separator{
+		  	border-top: {text:Separator Thickness}px solid {color:Separator Color};
+		  	margin-bottom: {text:Separator Spacing}px;
+		  	max-width:{text:Page Width}px;
+		  	}
+	@media only screen and (max-width: 999px) {
+	.row{
+	max-width:100%;
+	}
+		.col{
+		max-width:100%;
+		}
+	}
+	{block:IfShowWebkitScrollBar}
+	::-webkit-scrollbar{
+	width:{text:Webkit Scrollbar Width}px;
+	height:{text:Webkit Scrollbar Width}px;
+	}
+		::-webkit-scrollbar-button:start:decrement,
+		::-webkit-scrollbar-button:end:increment{
+		display:block;
+		height:0px;
+		width:0px;
+		}
+			::-webkit-scrollbar-button:vertical:increment,
+			::-webkit-scrollbar-button:horizontal:increment{
+			background-color:transparent;
+			}
+				::-webkit-scrollbar-track-piece{
+				background-color:{color:Background Color};
+				}
+					::-webkit-scrollbar-thumb:vertical{
+					height:50px;
+  					background-color:{color:Navigation Color};
+  					}
+  						::-webkit-scrollbar-thumb:horizontal{
+  						width:50px;
+  						background-color:{color:Navigation Color};
+  						}
+  							::-webkit-scrollbar-thumb:hover{
+  							background-color:{color:Navigation Hover Color};
+  							}
+  								::-webkit-scrollbar-corner{
+  								background-color:{color:Background Color};
+  								}
+  								{/block:IfShowWebkitScrollBar}
+
+.like-reblog{
+  list-style:none;
+
+}
+.like-reblog li{
+    float:right;
+    position:relative; top:-25px; left: -5px;z-index: 2;
+  padding:6px;
+  height:20px;
+ 
+}
+    
+</style>
+
+<!--	custom css	-->
+
+<style type="text/css" media="screen">
+{CustomCSS}
+</style>
+
+</head>
+	<body>
+
+	<div id="wrapper">
+
+		{block:IfShowHeader}
+
+		{block:IfShowPostSeparator}
+		<div class="row">
+			<div class="col">
+				<div class="separator"></div>
+			</div>
+		</div>
+		{/block:IfShowPostSeparator}
+
+			<div class="row">
+				<div class="col">
+					{block:IfHeaderImage}<div class="headerimage"><a href="/"><img src="{image:Header}"/></a></div>{/block:IfHeaderImage}
+					{block:IfNotHeaderImage}
+					
+					{block:IfShowBlogTitle}
+					<div class="blogtitle" id="blogtitle"><z href="/">{Title}</z></div>
+					{/block:IfShowBlogTitle}
+					    {/block:IfNotHeaderImage}
+					
+					{block:IfShowBlogDescription}<p>{Description}</p>
+					{/block:IfShowBlogDescription}
+					
+					
+					
+					{block:IfShowPagesInHeader}{block:HasPages}{block:Pages}<div class="meta"><a href="{URL}" >{Label}</a></div>{/block:Pages}{/block:HasPages}{/block:IfShowPagesInHeader}
+					{block:IfShowArchiveInHeader}
+
+<!--headernav-->
+
+<div class="meta"><a href="/">Home</a></div>
+<div class="meta"><a href="/archive">Archive</a></div>
+<div class="meta"><a href="/random">Random</a></div>
+<div class="meta"><a href="/ask">Ask</a></div>
+
+<!--headernav-->
+
+
+{/block:IfShowArchiveInHeader}
+					{block:IfShowRSSInHeader}<div class="meta"><a href="{RSS}">{lang:RSS}</a></div>{/block:IfShowRSSInHeader}
+				</div>
+			</div>
+		{/block:IfShowHeader}
+		
+		{block:TagPage}
+			<div class="col">
+				<p>Posts tagged with &ldquo;{Tag}&rdquo;</p>
+			</div>
+        {/block:TagPage}
+
+	{block:Posts}
+	<div id="post">
+
+		{block:IfShowPostSeparator}
+		<div class="row">
+			<div class="col">
+				<div class="separator"></div>
+			</div>
+		</div>
+		{/block:IfShowPostSeparator}
+
+		<div class="row">
+		{block:Text}
+			{block:Title}
+				<div class="col">
+					<div class="heading">
+						<a href="{Permalink}">{Title}</a>
+					</div>
+				</div>
+			{/block:Title}
+		{/block:Text}
+			
+		{block:Chat}
+			{block:Title}
+				<div class="col">
+					<div class="heading">
+						<a href="{Permalink}">{Title}</a>
+					</div>
+				</div>
+			{/block:Title}
+		{/block:Chat}
+
+		{block:Quote}
+			<div class="col">
+				<div class="heading">
+					<a href="{Permalink}">&ldquo;{Quote}&rdquo;</a>
+				</div>
+			</div>
+		{/block:Quote}
+
+		{block:Link}
+			<div class="col">
+				<div class="heading">
+					<a href="{URL}" {Target}>&#149; {Name}</a>
+				</div>
+			</div>
+		{/block:Link}
+
+		{block:Photo}
+			<div class="media">
+			{LinkOpenTag}
+				<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
+			{LinkCloseTag}
+			</div>
+		{/block:Photo}
+
+		{block:Photoset}
+			{block:Photos}
+				<div class="media">
+				{LinkOpenTag}
+					<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
+				{LinkCloseTag}
+				</div>
+			{/block:Photos}
+		{/block:Photoset}
+
+		{block:Audio}
+			<div class="media">
+				<div class="audio">
+					{block:IfShowAlbumArt}
+						{block:AlbumArt}
+							<img src="{AlbumArtURL}" />
+						{/block:AlbumArt}
+					{/block:IfShowAlbumArt}
+				{AudioPlayerBlack}
+				</div>
+			</div>
+		{/block:Audio}
+
+		{block:Video}
+			<div class="media">
+				{Video-500}
+			</div>
+		{/block:Video}
+
+		{block:IfShowPostText}
+			{block:Text}
+				<div class="col">
+					{Body}
+				</div>
+			{/block:Text}
+		{/block:IfShowPostText}
+		
+		{block:IfShowPostCaptions}
+			{block:Caption}
+				<div class="col">
+					{Caption}
+				</div>
+			{/block:Caption}
+		{/block:IfShowPostCaptions}
+		
+		{block:Quote}
+			{block:Source}
+				<div class="col">
+					<p>{Source}</p>
+				</div>
+			{/block:Source}
+		{/block:Quote}
+
+		{block:IfShowPostDescriptions}
+			{block:Link}
+				{block:Description}
+					<div class="col">
+						{Description}
+					</div>
+				{/block:Description}
+			{/block:Link}
+		{/block:IfShowPostDescriptions}
+
+		{block:Chat}
+			<div class="col">
+				<p>{block:Lines}{block:Label}{Label} {/block:Label}{Line}<br/>{/block:Lines}</p>
+			</div>
+		{/block:Chat}
+
+		{block:IfShowPostMeta}
+		<div class="col">
+			<div class="postmeta">
+
+			{block:Audio}
+				{block:TrackName}<div class="meta">Track&#58; {TrackName}</div>{/block:TrackName}
+				{block:Artist}<div class="meta">Artist&#58; {Artist}</div>{/block:Artist}
+				{block:Album}<div class="meta">Album&#58; {Album}</div>{/block:Album}
+				<div class="clear"></div>
+			{/block:Audio}
+
+			{block:IndexPage}
+				{block:IfShowDateInPosts}
+					{block:Date}
+						<div class="meta"><a href="{Permalink}">{DayOfMonthWithZero}&#9585;{MonthNumberWithZero}&#9585;{ShortYear}</a></div>
+					{/block:Date}
+				{/block:IfShowDateInPosts}
+			{/block:IndexPage}
+
+                {block:IfShowPostTags}
+				{block:HasTags}
+					<div class="meta">Tags:</div>
+					{block:Tags}
+						<div class="meta"><a href="{TagURL}" class="tag">{Tag}</a></div>
+					{/block:Tags}
+				{/block:HasTags}
+                {/block:IfShowPostTags}
+
+			{block:IfShowNoteCountInPosts}
+				{block:NoteCount}
+		<!--			<div class="meta">{lang:Notes}</div>-->
+					<div class="meta"><a href="{Permalink}">Permalink</a></div>
+				{/block:NoteCount}
+			{/block:IfShowNoteCountInPosts}
+			
+			
+	
+			
+
+			{block:IfShowContentSourceInPosts}
+				{block:ContentSource}
+					<div class="meta">Source:</div>
+					<div class="meta"><a href="{SourceURL}">{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}</a></div>
+				{/block:ContentSource}
+			{/block:IfShowContentSourceInPosts}
+						
+					</div>
+
+<div class="like-reblog">
+   <li>{ReblogButton}</li>
+      <li>{LikeButton}</li>
+</div>
+			</div>
+		</div>
+		{/block:IfShowPostMeta}
+
+		</div>
+
+
+		
+	{/block:Posts}
+
+		{block:IndexPage}
+			{block:Pagination}
+				<div id="pagination">
+				<div class="row">
+				<div class="col">
+					{block:PreviousPage}<a href="{PreviousPage}" class="prev">Previous Page</a>{/block:PreviousPage}
+					{block:NextPage}<a href="{NextPage}" class="next">Next Page</a>{/block:NextPage}
+				</div>
+				</div>
+				</div>
+			{/block:Pagination}
+		{/block:IndexPage}
+
+		{block:PermalinkPage}
+			{block:PermalinkPagination}
+				<div class="row">
+				<div class="col">
+					{block:PreviousPost}<a href="{PreviousPost}" class="prev">Previous Post</a>{/block:PreviousPost}
+					{block:NextPost}<a href="{NextPost}" class="next">Next Post</a>{/block:NextPost}
+				</div>
+				</div>
+			{/block:PermalinkPagination}
+		{/block:PermalinkPage}
+		
+		{block:PermalinkPage}
+			{block:IfShowNotesInPosts}
+				{block:PostNotes}
+					<div class="row">
+					<div class="col">
+						<div class="notes">
+							<div class="meta">{PostNotes}</div>
+						</div>
+					</div>
+					</div>
+				{/block:PostNotes}
+			{/block:IfShowNotesInPosts}
+		{/block:PermalinkPage}
+
+	</div>
+
+		{block:IfShowBottom}
+			<div class="bottom">
+				<div class="row">
+					<div class="col">
+						{block:IfShowPostSeparator}
+							<div class="separator"></div>
+						{/block:IfShowPostSeparator}	
+            			<div class="signoff">{text:Bottom Copy}</div>
+        			</div>
+        		</div>
+			</div>
+		{/block:IfShowBottom}
+
+			{block:IfShowScrollToTopButton}
+				<div class="navup">
+					<a href="#top" class="scroll"></a>
+				</div>
+			{/block:IfShowScrollToTopButton}
+		
+
+<!--    <script type="text/javascript" src="https://static.tumblr.com/zx46hge/K0Opves4p/liliy.js"></script> -->
+	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/nq2ly5vr1/jquery.1.7.1.min.js"></script>
+	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/T9Vm8v9dm/jquery.fitvids.js"></script>
+	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/bQtlxyt6n/jquery.infinitescroll.js"></script>
+	<script type="text/javascript">
+	(function($) {
+		$(function () {
+			$("#wrapper").fitVids();
+		});
+
+		$(function () {
+			$(".navup").hide();
+				$(function () {
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 300) {
+						$('.navup').fadeIn();
+					} else {
+						$('.navup').fadeOut();
+					}
+				});
+				$('.navup a').click(function () {
+					$('body,html').animate({
+						scrollTop: 0
+					}, 300);
+					return false;
+				});
+			});
+		});
+
+		{block:IfShowEndlessScrolling}
+    	{block:IndexPage}
+    		$(function() {
+				$('#wrapper').infinitescroll({
+					navSelector: '#pagination',
+					nextSelector: '.next',
+					itemSelector: '#wrapper > #post',
+						loading: {
+						img: false,
+						msgText: '<div class="row"><div class="col">Loading...</div></div>',
+						finishedMsg: '<div class="row"><div class="col">The End.</div></div>'
+						}
+					},
+					function(arrayOfNewElems)
+					{
+				$("#wrapper").fitVids();
+			});
+		});
+		{/block:IndexPage}
+    	{/block:IfShowEndlessScrolling}
+    })(jQuery);
+	</script>
+</body>
+</html>
