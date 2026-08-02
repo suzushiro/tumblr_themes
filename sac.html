@@ -1,806 +1,729 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!--
-standalonecomplex
--->
+<title>{Title}{block:PostSummary} — {PostSummary}{/block:PostSummary}</title>
+<meta name="description" content="{block:IndexPage}{block:Description}{MetaDescription}{/block:Description}{/block:IndexPage}{block:PermalinkPage}{block:PostSummary}{PostSummary}{/block:PostSummary}{/block:PermalinkPage}">
 
-<html>
-<!-- Google tag (gtag.js) -->
+<link rel="shortcut icon" href="{Favicon}">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}">
+
+<!-- ===== カラー ===== -->
+<meta name="color:Background Color" content="#ffffff">
+<meta name="color:Page Background Color" content="#ffffff">
+<meta name="color:Body Color" content="#333333">
+<meta name="color:Link Color" content="#333333">
+<meta name="color:Link Hover Color" content="#999999">
+<meta name="color:Meta Color" content="#999999">
+<meta name="color:Meta Hover Color" content="#333333">
+<meta name="color:Separator Color" content="#bebebe">
+<meta name="color:Navigation Color" content="#999999">
+<meta name="color:Navigation Hover Color" content="#333333">
+<meta name="color:Title Glow Color" content="#dddddd">
+
+<!-- ===== 画像 ===== -->
+<meta name="image:Header" content="">
+
+<!-- ===== フォント（末尾のセミコロン禁止） ===== -->
+<meta name="font:Body Font" content="Helvetica Neue">
+<meta name="font:Heading Font" content="Helvetica Neue">
+<meta name="font:Meta Font" content="Helvetica Neue">
+<meta name="font:Title Font" content="Georgia">
+
+<!-- ===== 表示切り替え ===== -->
+<meta name="if:Show Header" content="1">
+<meta name="if:Show Blog Title" content="1">
+<meta name="if:Show Blog Description" content="1">
+<meta name="if:Show Pages In Header" content="1">
+<meta name="if:Show Archive In Header" content="1">
+<meta name="if:Show RSS In Header" content="1">
+<meta name="if:Show Post Text" content="1">
+<meta name="if:Show Post Captions" content="1">
+<meta name="if:Show Post Descriptions" content="1">
+<meta name="if:Show Post Meta" content="1">
+<meta name="if:Show Date In Posts" content="1">
+<meta name="if:Show Post Tags" content="1">
+<meta name="if:Show Note Count In Posts" content="1">
+<meta name="if:Show Content Source In Posts" content="1">
+<meta name="if:Show Notes In Posts" content="0">
+<meta name="if:Show Album Art" content="1">
+<meta name="if:Show Post Separator" content="0">
+<meta name="if:Show Bottom" content="1">
+<meta name="if:Show Endless Scrolling" content="1">
+<meta name="if:Show Image Hover Effect" content="1">
+<meta name="if:Show Heading In Uppercase" content="0">
+<meta name="if:Show Heading In Bold" content="0">
+<meta name="if:Show Title Glow" content="1">
+<meta name="if:Show Scroll To Top Button" content="1">
+<meta name="if:Show Custom Scroll Bar" content="1">
+<meta name="if:Center Align Page" content="0">
+<meta name="if:Center Align Text" content="0">
+
+<!-- ===== 数値 ===== -->
+<meta name="text:Body Font Size" content="18">
+<meta name="text:Body Line Height" content="22">
+<meta name="text:Paragraph Spacing" content="25">
+<meta name="text:Heading Font Size" content="24">
+<meta name="text:Heading Line Height" content="26">
+<meta name="text:Title Font Size" content="90">
+<meta name="text:Meta Font Size" content="14">
+<meta name="text:Meta Line Height" content="18">
+<meta name="text:Media Spacing" content="10">
+<meta name="text:Separator Thickness" content="1">
+<meta name="text:Separator Spacing" content="20">
+<meta name="text:Page Padding" content="40">
+<meta name="text:Page Width" content="1100">
+<meta name="text:Scrollbar Width" content="15">
+<meta name="text:Bottom Copy" content="">
+
+<style>
+/* =========================================================
+   1. トークン
+   ========================================================= */
+:root{
+  --bg:              {color:Background Color};
+  --page-bg:         {color:Page Background Color};
+  --fg:              {color:Body Color};
+  --link:            {color:Link Color};
+  --link-hover:      {color:Link Hover Color};
+  --meta:            {color:Meta Color};
+  --meta-hover:      {color:Meta Hover Color};
+  --rule:            {color:Separator Color};
+  --nav:             {color:Navigation Color};
+  --nav-hover:       {color:Navigation Hover Color};
+  --glow:            {color:Title Glow Color};
+
+  --font-body:       {font:Body Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading:    {font:Heading Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-meta:       {font:Meta Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-title:      {font:Title Font}, Georgia, "Times New Roman", serif;
+
+  --size-body:       {text:Body Font Size}px;
+  --lh-body:         {text:Body Line Height}px;
+  --size-heading:    {text:Heading Font Size}px;
+  --lh-heading:      {text:Heading Line Height}px;
+  --size-title:      {text:Title Font Size}px;
+  --size-meta:       {text:Meta Font Size}px;
+  --lh-meta:         {text:Meta Line Height}px;
+
+  --space-para:      {text:Paragraph Spacing}px;
+  --space-media:     {text:Media Spacing}px;
+  --space-post:      30px;
+  --pad-page:        {text:Page Padding}px;
+  --page-width:      {text:Page Width}px;
+
+  --rule-width:      {text:Separator Thickness}px;
+  --rule-space:      {text:Separator Spacing}px;
+  --scrollbar:       {text:Scrollbar Width}px;
+
+  --ease:            0.3s ease;
+}
+
+/* =========================================================
+   2. ベース
+   ========================================================= */
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  padding:var(--pad-page);
+  font-family:var(--font-body);
+  font-size:var(--size-body);
+  line-height:var(--lh-body);
+  color:var(--fg);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+
+p{ margin:var(--space-para) 0; }
+p:first-child{ margin-top:0; }
+p:last-child{ margin-bottom:0; }
+
+ul,ol{ margin:15px 0; padding-left:1.4em; }
+ul{ list-style:disc; }
+ol{ list-style:decimal; }
+
+blockquote{
+  margin:0 0 15px;
+  padding-left:15px;
+  border-left:2px solid var(--rule);
+}
+
+img,video{ max-width:100%; height:auto; display:block; }
+
+iframe,embed,object{ max-width:100%; border:0; }
+
+/* fitVids の代わり：埋め込み動画を比率維持でレスポンシブに */
+.media iframe{ width:100%; aspect-ratio:16/9; height:auto; }
+
+/* =========================================================
+   3. リンク
+   ========================================================= */
+a{
+  color:var(--link);
+  text-decoration:underline;
+  transition:color var(--ease), text-shadow var(--ease);
+}
+a:hover,
+a:focus-visible{ color:var(--link-hover); }
+
+/* キーボード操作のフォーカスは必ず見せる */
+:focus-visible{
+  outline:2px solid var(--link);
+  outline-offset:2px;
+}
+
+{block:IfShowImageHoverEffect}
+a img{ transition:opacity 0.2s ease; }
+a:hover img{ opacity:0.8; }
+{/block:IfShowImageHoverEffect}
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *{ transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
+}
+
+/* =========================================================
+   4. レイアウト
+   ========================================================= */
+.wrapper{
+  max-width:var(--page-width);
+  background:var(--page-bg);
+}
+{block:IfCenterAlignPage}
+.wrapper{ margin-inline:auto; }
+{/block:IfCenterAlignPage}
+{block:IfCenterAlignText}
+.wrapper{ text-align:center; }
+{/block:IfCenterAlignText}
+
+.stack > * + *{ margin-top:var(--space-post); }
+
+.separator{
+  border:0;
+  border-top:var(--rule-width) solid var(--rule);
+  margin:0 0 var(--rule-space);
+}
+
+/* =========================================================
+   5. ヘッダー
+   ========================================================= */
+.site-header{ margin-bottom:var(--space-post); }
+
+.site-title{
+  margin:0 0 5px;
+  font-family:var(--font-title);
+  font-size:var(--size-title);
+  line-height:1.1;
+  font-weight:700;
+  word-break:break-word;
+}
+.site-title a{
+  color:var(--fg);
+  text-decoration:none;
+  transition:color var(--ease), text-shadow var(--ease);
+}
+{block:IfShowTitleGlow}
+.site-title a:hover{
+  color:#fff;
+  text-shadow:-1px 1px 5px var(--glow), 1px -1px 5px #fff;
+}
+{/block:IfShowTitleGlow}
+
+.site-description{ margin:0 0 10px; }
+
+.site-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px 12px;
+  margin:0;
+  padding:0;
+  list-style:none;
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+  line-height:var(--lh-meta);
+}
+{block:IfCenterAlignText}
+.site-nav{ justify-content:center; }
+{/block:IfCenterAlignText}
+.site-nav a{ color:var(--nav); text-decoration:none; }
+.site-nav a:hover{ color:var(--nav-hover); }
+
+.header-image{ margin:0 0 20px; }
+.header-image img{ width:100%; }
+{block:IfCenterAlignPage}
+.header-image img{ margin-inline:auto; }
+{/block:IfCenterAlignPage}
+
+/* =========================================================
+   6. 投稿
+   ========================================================= */
+.post{ margin:0; }
+.post + .post{ margin-top:var(--space-post); }
+
+.post-heading{
+  margin:0 0 5px;
+  font-family:var(--font-heading);
+  font-size:var(--size-heading);
+  line-height:var(--lh-heading);
+  font-weight:normal;
+  {block:IfShowHeadingInUppercase}text-transform:uppercase;{/block:IfShowHeadingInUppercase}
+  {block:IfShowHeadingInBold}font-weight:bold;{/block:IfShowHeadingInBold}
+}
+.post-heading a{ text-decoration:none; }
+
+.media + .media{ margin-top:var(--space-media); }
+.media + .post-body{ margin-top:var(--space-media); }
+{block:IfCenterAlignPage}
+.media img{ margin-inline:auto; }
+{/block:IfCenterAlignPage}
+
+.audio-player{ max-width:500px; }
+{block:IfCenterAlignPage}
+.audio-player{ margin-inline:auto; }
+{/block:IfCenterAlignPage}
+
+.question{ margin:0 0 var(--space-para); }
+.asker{ font-family:var(--font-meta); font-size:var(--size-meta); color:var(--meta); }
+
+/* --- メタ情報 --- */
+.post-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:5px 10px;
+  margin-top:10px;
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+  line-height:var(--lh-meta);
+  color:var(--meta);
+}
+{block:IfCenterAlignText}
+.post-meta{ justify-content:center; }
+{/block:IfCenterAlignText}
+.post-meta a{ color:var(--meta); text-decoration:none; }
+.post-meta a:hover{ color:var(--meta-hover); }
+.post-meta .tag{ text-transform:capitalize; }
+
+.post-actions{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  margin-left:auto;
+}
+{block:IfCenterAlignText}
+.post-actions{ margin-left:0; }
+{/block:IfCenterAlignText}
+
+/* =========================================================
+   7. ページ送り・ノート・フッター
+   ========================================================= */
+.pagination{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px 15px;
+  margin-top:var(--space-post);
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+}
+
+.notes{
+  margin-top:var(--space-post);
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+  line-height:var(--lh-meta);
+  color:var(--meta);
+}
+.notes ol,.notes ul{ list-style:none; margin:0; padding:0; }
+.notes img.avatar{ display:none; }
+.notes li{ margin-bottom:5px; }
+
+.site-footer{
+  margin-top:var(--space-post);
+  padding-bottom:var(--pad-page);
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+  color:var(--meta);
+}
+.site-footer a{ color:var(--meta); }
+
+/* =========================================================
+   8. トップへ戻る
+   ========================================================= */
+.to-top{
+  position:fixed;
+  right:var(--pad-page);
+  bottom:var(--pad-page);
+  z-index:99;
+  display:grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  padding:0;
+  border:0;
+  border-radius:10px 10px 0 0;
+  background:var(--nav);
+  color:var(--page-bg);
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity var(--ease), visibility var(--ease), background var(--ease);
+}
+.to-top.is-visible{ opacity:1; visibility:visible; }
+.to-top:hover{ background:var(--nav-hover); }
+.to-top svg{ width:18px; height:18px; fill:currentColor; }
+
+/* =========================================================
+   9. 読み込み表示
+   ========================================================= */
+.infinite-status{
+  margin-top:var(--space-post);
+  font-family:var(--font-meta);
+  font-size:var(--size-meta);
+  color:var(--meta);
+}
+.infinite-status[hidden]{ display:none; }
+
+/* =========================================================
+   10. スクロールバー
+   ========================================================= */
+{block:IfShowCustomScrollBar}
+html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
+::-webkit-scrollbar{ width:var(--scrollbar); height:var(--scrollbar); }
+::-webkit-scrollbar-track{ background:var(--bg); }
+::-webkit-scrollbar-thumb{ background:var(--nav); }
+::-webkit-scrollbar-thumb:hover{ background:var(--nav-hover); }
+::-webkit-scrollbar-corner{ background:var(--bg); }
+{/block:IfShowCustomScrollBar}
+
+/* =========================================================
+   11. モバイル
+   ========================================================= */
+@media (max-width:768px){
+  :root{
+    --pad-page:20px;
+    --size-title:clamp(36px, 12vw, {text:Title Font Size}px);
+  }
+}
+
+/* =========================================================
+   12. 印刷
+   ========================================================= */
+@media print{
+  .to-top,.site-nav,.post-actions,.pagination{ display:none; }
+  body{ padding:0; color:#000; background:#fff; }
+}
+</style>
+
+<style>{CustomCSS}</style>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-66JY87RT6Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
-
   gtag('config', 'G-66JY87RT6Z');
 </script>
-<head>	
-<title>{Title}{block:PostSummary} {PostSummary}{/block:PostSummary}</title>
-<meta charset="utf-8">
-<meta name="description" content="{block:IndexPage}{block:Description}{MetaDescription}{/block:Description}{/block:IndexPage}{block:PermalinkPage}{block:PostSummary}{PostSummary}{/block:PostSummary}{/block:PermalinkPage}" />
-
-<!-- appearance options -->
-
-<meta name="color:Background Color" content="#ffffff" />
-<meta name="color:Page Background Color" content="#ffffff" />
-<meta name="color:Body Color" content="#333333" />
-<meta name="color:Link Color" content="#333333" />
-<meta name="color:Link Hover Color" content="#999999" />
-<meta name="color:Meta Color" content="#999999" />
-<meta name="color:Meta Hover Color" content="#333333" />
-<meta name="color:Separator Color" content="#bebebe" />
-<meta name="color:Navigation Color" content="#999999" />
-<meta name="color:Navigation Hover Color" content="#333333" />
-<meta name="image:Header" content="" />
-<meta name="font:Body Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
-<meta name="font:Heading Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
-<meta name="font:Meta Font" content=" 'helvetica', helvetica neue, arial, sans-serif; " />
-<meta name="if:Show Header" content="1" />
-<meta name="if:Show Blog Title" content="1" />
-<meta name="if:Show Blog Description" content="1" />
-<meta name="if:Show Pages In Header" content="1" />
-<meta name="if:Show Archive In Header" content="1" />
-<meta name="if:Show RSS In Header" content="1" />
-<meta name="if:Show Post Text" content="1" />	
-<meta name="if:Show Post Captions" content="1" />	
-<meta name="if:Show Post Descriptions" content="1" />	
-<meta name="if:Show Post Meta" content="1" />
-<meta name="if:Show Date In Posts" content="1" />
-<meta name="if:Show Tags In Posts" content="1" />
-<meta name="if:Show Post Tags" content="1"/>
-<meta name="if:Show Note Count In Posts" content="1" />
-<meta name="if:Show Content Source In Posts" content="1" />
-<meta name="if:Show Notes In Posts" content="0" />
-<meta name="if:Show Album Art" content="1" />
-<meta name="if:Show Post Separator" content="0" />
-<meta name="if:Show Bottom" content="1" />
-<meta name="if:Show Endless Scrolling" content="1" />
-<meta name="if:Show Image Hover Effect" content="1" />
-<meta name="if:Show Heading In Uppercase" content="0" />
-<meta name="if:Show Heading In Bold" content="0" />
-<meta name="if:Show Scroll To Top Button" content="1" />
-<meta name="if:Show Webkit Scroll Bar" content="1" />
-<meta name="if:Center Align Page" content="0" />
-<meta name="if:Center Align Text" content="0" />
-<meta name="text:Body Font Size" content="18" />
-<meta name="text:Body Line Height" content="22" />
-<meta name="text:Paragraph Spacing" content="10" />
-<meta name="text:Heading Font Size" content="24" />
-<meta name="text:Heading Line Height" content="26" />
-<meta name="text:Meta Font Size" content="14" />
-<meta name="text:Meta Line Height" content="18" />
-<meta name="text:Media Spacing" content="0" />
-<meta name="text:Separator Thickness" content="1" />
-<meta name="text:Separator Spacing" content="20" />
-<meta name="text:Page Padding" content="40" />
-<meta name="text:Page Width" content="1100" />
-<meta name="text:Column Width" content="1100" />
-<meta name="text:Webkit Scrollbar Width" content="15" />
-<!--<meta name="text:Bottom Copy" content='Running on <a href="https://thedefaultnetwork.tumblr.com/">The Default Network</a> '/>-->
-
-<!--	links	-->
-
-<link rel="shortcut icon" href="{Favicon}" />
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}"/>
-
-<!--	theme css	-->
-
-<style type="text/css" media="screen">
-
-/*	reset	*/
-
-html,body,p,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}:focus{outline:0;}
-
-/*	base styles		*/
-
-html{
-	-webkit-font-smoothing: antialiased;
-	-webkit-text-size-adjust:none;
-	}
-body{
-	font:{text:Body Font Size}px {font:Body Font};
-	line-height:{text:Body Line Height}px;
-	color:{color:Body Color};
-	background:{color:Background Color};
-	padding:{text:Page Padding};
-	}
-
-	{block:IfCenterAlignPage}
-	body{
-/*	text-align:center;	*/
-	}
-	{/block:IfCenterAlignPage}
-
-p{
-	margin-top:25px;
-	margin-bottom:25px;
-	}
-
-.heading{
-	font:{text:Heading Font Size}px {font:Heading Font};
-	line-height:{text:Heading Line Height}px;
-	margin-bottom:5px;
-	}
-{block:IfShowHeadingInUppercase}.heading{ text-transform:uppercase; }{/block:IfShowHeadingInUppercase}
-{block:IfShowHeadingInBold}.heading{ font-weight:bold; }{/block:IfShowHeadingInBold}
-
-
-	.description{
-		font:{text:Description Font Size}px {font:Description Font};
-		line-height:{text:Description Line Height}px;
-		font-weight:normal;
-		}
-			.meta,
-			.sig{
-			font:{text:Meta Font Size}px {font:Meta Font};
-			color:{color:Meta Color};
-			line-height:{text:Meta Line Height}px;
-			font-weight:normal;
-			margin-right:5px;
-			}
-				.meta{
-				display:inline;
-				}
-z{
-    color: #222;
-    -webkit-transition: 0.5s;
-     -moz-transition: 0.5s;
-     -o-transition: 0.5s;
-     -ms-transition: 0.5s;
-     transition: 0.5s;
-}
- 
-z:hover {
-    color: #fff;
-    text-shadow: -1px 1px 5px #ddd, 1px -1px 5px #fff;
-}
-	a,
-	a:visited{
-	    
-	        color:{color:Link Color};
-    -webkit-transition: 0.5s;
-     -moz-transition: 0.5s;
-     -o-transition: 0.5s;
-     -ms-transition: 0.5s;
-     transition: 0.5s;
-	    
-	    
-	    
-	text-decoration:underline; 
-	color:{color:Link Color}; 
-	}
-	a:hover{
-	    
-	    
-	     color: #fff;
-    text-shadow: -1px 1px 5px #ddd, 1px -1px 5px #fff;
-	    
-	    
-	    
-	color:{color:Link Hover Color}; 
-	}
-	{block:IfShowImageHoverEffect}
-	a img{
-	-webkit-transition: opacity 0.2s;
-	-o-transition: opacity 0.2s;
-	-moz-transition: opacity 0.2s;
-	transition: opacity 0.2s;
-	}
-	a img:hover{
-	filter:alpha(opacity=80);
-	-moz-opacity:.80;
-	opacity:.80;
-	}
-	{/block:IfShowImageHoverEffect}
-		.heading a{
-		text-decoration:none;
-		font-family: georgia, serif;
-        font color:#ddd;
-        font-size:35px;
-        line-height:1.2em;
-		}
-			.meta a,
-			.sig a{
-			color:{color:Meta Color};
-			}
-			.meta a:hover,
-			.sig a:hover{
-			color:{color:Meta Hover Color};
-			}
-				a.tag{
-				text-transform:capitalize;
-				}
-					a.scroll{
-					display:block;
-					width:40px; height:40px; 
-					background-color:transparent;
-                    background:url(https://static.tumblr.com/dt4ynlt/dFknhz2ib/bkt.png) no-repeat center center;
-                    outline: none;
-					
-					-moz-border-radius-topleft:10px;-moz-border-radius-topright:10px; -moz-border-radius-bottomright:0px; -moz-border-radius-bottomleft:0px; -webkit-border-top-left-radius:10px; -webkit-border-top-right-radius:10px; -webkit-border-bottom-right-radius:0px; -webkit-border-bottom-left-radius:0px;
-					border-top-left-radius:10px;
-					border-top-right-radius:10px; border-bottom-right-radius:0px; 
-					border-bottom-left-radius:0px;
-					}
-					a.scroll:hover{
-						background-color:transparent;
-                    background:url(https://static.tumblr.com/dt4ynlt/dFknhz2ib/bkt.png) no-repeat center center;
-					}
-						a.prev{
-						margin-right:5px;
-						}
-							:focus{
-							-moz-outline-style:none;
-							}
-							
-							.blogtitle{
-	font:90px {font:Heading Font};
-	text-decoration:none;
-	margin-bottom:5px;
-	font-weight:bold; 
-	margin-left:-10px;
-	}
-							
-	ul{
-	list-style-type:disc;
-	list-style-position:inside;
-		margin-top:15px; 
-	margin-bottom:15px; 
-	}
-		ol{
-		list-style-type:decimal;
-		list-style-position:inside;
-		margin-bottom:15px; 
-		}
-			.notes ul, .notes ol{
-			list-style:none;
-			margin-bottom:0px;
-			}
-				blockquote{
-				border-left:solid 0px {color:Body Color};
-				padding-left:15px;
-				margin-bottom:15px;
-				}
-					li.note.more_notes_link_container{
-					padding-top:30px;
-					text-align:left;
-					}
-
-	#wrapper{
-	background:{color:Page Background Color};
-	max-width:{text:Page Width}px; 
-	}
-
-	{block:IfShowBottom}
-	#wrapper{
-	padding:{text:Page Padding}px {text:Page Padding}px 0px {text:Page Padding}px;
-	}
-	{/block:IfShowBottom}	
-
-	{block:IfNotShowBottom}
-	#wrapper{
-	padding:{text:Page Padding}px;
-	}
-	{/block:IfNotShowBottom}
-
-	{block:IfCenterAlignPage}
-	#wrapper{
-	margin: 0px auto;
-	}
-	{/block:IfCenterAlignPage}
-
-		.row{
-		width:100%; 
-		padding-bottom:30px;
-		}
-			.col{
-			width:100%; 
-			max-width:{text:Column Width}px; 
-			margin-bottom:10px;
-			}
-			
-			{block:IfCenterAlignPage}
-			.col{
-			margin: 0px Auto;
-			}
-			{/block:IfCenterAlignPage}
-
-			{block:IfCenterAlignText}
-			.col{
-			text-align:center;
-			}
-			{/block:IfCenterAlignText}
-			
-				.headerimage{
-				width:100%;
-				max-width:{text:Page Width}px;
-				margin-bottom:20px;
-				}
-					.post{
-					}
-						.media{
-						margin-bottom:10px;
-						}
-
-						{block:IfCenterAlignPage}
-						.media {
-						margin: 0px auto;
-						}
-						{/block:IfCenterAlignPage}
-
-							.postmeta{
-							max-width:{text:Column Width}px;
-					
-							}
-							
-								.bottom{
-								background:{color:Page Background Color};
-								padding:0px 0px {text:Page Padding}px 0px;
-								}
-								
-								{block:IfNotCenterAlignPage}
-								.bottom{
-								max-width:{text:Page Width}px;
-								margin:0 {text:Page Padding}px 0 {text:Page Padding}px;
-								}
-								{/block:IfNotCenterAlignPage}
-								
-								{block:IfCenterAlignPage}
-								.bottom{
-								max-width:{text:Page Width}px;
-								margin: 0px auto;
-								}
-								{/block:IfCenterAlignPage}
-
-	img {
-	max-width:100%;
-	height:auto;
-	display:block;
-	}
-	
-	{block:IfCenterAlignPage}
-	img {
-	margin:25px auto;
-	}
-	{/block:IfCenterAlignPage}
-	
-		img.avatar{
-		display:none !important;
-		}
-			#infscr-loading img{
-			display:none !important;
-			}
-				.audio{
-				max-width:300px;
-				}
-					.audio img{
-					width:300px;
-					}
-		.navup{
-		position:fixed;
-		bottom:{text:Page Padding}px;
-		right:{text:Page Padding}px;
-		z-index:9999;
-		}
-			.separator{
-		  	border-top: {text:Separator Thickness}px solid {color:Separator Color};
-		  	margin-bottom: {text:Separator Spacing}px;
-		  	max-width:{text:Page Width}px;
-		  	}
-	@media only screen and (max-width: 999px) {
-	.row{
-	max-width:100%;
-	}
-		.col{
-		max-width:100%;
-		}
-	}
-	{block:IfShowWebkitScrollBar}
-	::-webkit-scrollbar{
-	width:{text:Webkit Scrollbar Width}px;
-	height:{text:Webkit Scrollbar Width}px;
-	}
-		::-webkit-scrollbar-button:start:decrement,
-		::-webkit-scrollbar-button:end:increment{
-		display:block;
-		height:0px;
-		width:0px;
-		}
-			::-webkit-scrollbar-button:vertical:increment,
-			::-webkit-scrollbar-button:horizontal:increment{
-			background-color:transparent;
-			}
-				::-webkit-scrollbar-track-piece{
-				background-color:{color:Background Color};
-				}
-					::-webkit-scrollbar-thumb:vertical{
-					height:50px;
-  					background-color:{color:Navigation Color};
-  					}
-  						::-webkit-scrollbar-thumb:horizontal{
-  						width:50px;
-  						background-color:{color:Navigation Color};
-  						}
-  							::-webkit-scrollbar-thumb:hover{
-  							background-color:{color:Navigation Hover Color};
-  							}
-  								::-webkit-scrollbar-corner{
-  								background-color:{color:Background Color};
-  								}
-  								{/block:IfShowWebkitScrollBar}
-
-.like-reblog{
-  list-style:none;
-
-}
-.like-reblog li{
-    float:right;
-    position:relative; top:-25px; left: -5px;z-index: 2;
-  padding:6px;
-  height:20px;
- 
-}
-    
-</style>
-
-<!--	custom css	-->
-
-<style type="text/css" media="screen">
-{CustomCSS}
-</style>
-
 </head>
-	<body>
 
-	<div id="wrapper">
+<body>
+<div class="wrapper">
 
-		{block:IfShowHeader}
+  {block:IfShowHeader}
+  <header class="site-header">
+    {block:IfShowPostSeparator}<hr class="separator">{/block:IfShowPostSeparator}
 
-		{block:IfShowPostSeparator}
-		<div class="row">
-			<div class="col">
-				<div class="separator"></div>
-			</div>
-		</div>
-		{/block:IfShowPostSeparator}
+    {block:IfHeaderImage}
+    <div class="header-image">
+      <a href="/"><img src="{image:Header}" alt="{Title}"></a>
+    </div>
+    {/block:IfHeaderImage}
 
-			<div class="row">
-				<div class="col">
-					{block:IfHeaderImage}<div class="headerimage"><a href="/"><img src="{image:Header}"/></a></div>{/block:IfHeaderImage}
-					{block:IfNotHeaderImage}
-					
-					{block:IfShowBlogTitle}
-					<div class="blogtitle" id="blogtitle"><z href="/">{Title}</z></div>
-					{/block:IfShowBlogTitle}
-					    {/block:IfNotHeaderImage}
-					
-					{block:IfShowBlogDescription}<p>{Description}</p>
-					{/block:IfShowBlogDescription}
-					
-					
-					
-					{block:IfShowPagesInHeader}{block:HasPages}{block:Pages}<div class="meta"><a href="{URL}" >{Label}</a></div>{/block:Pages}{/block:HasPages}{/block:IfShowPagesInHeader}
-					{block:IfShowArchiveInHeader}
+    {block:IfNotHeaderImage}
+      {block:IfShowBlogTitle}
+      <h1 class="site-title"><a href="/">{Title}</a></h1>
+      {/block:IfShowBlogTitle}
+    {/block:IfNotHeaderImage}
 
-<!--headernav-->
+    {block:IfShowBlogDescription}
+      {block:Description}<div class="site-description">{Description}</div>{/block:Description}
+    {/block:IfShowBlogDescription}
 
-<div class="meta"><a href="/">Home</a></div>
-<div class="meta"><a href="/archive">Archive</a></div>
-<div class="meta"><a href="/random">Random</a></div>
-<div class="meta"><a href="/ask">Ask</a></div>
+    <nav>
+      <ul class="site-nav">
+        {block:IfShowArchiveInHeader}
+        <li><a href="/">Home</a></li>
+        <li><a href="/archive">Archive</a></li>
+        <li><a href="/random">Random</a></li>
+        {block:AskEnabled}<li><a href="/ask">{AskLabel}</a></li>{/block:AskEnabled}
+        {/block:IfShowArchiveInHeader}
+        {block:IfShowPagesInHeader}
+          {block:HasPages}{block:Pages}<li><a href="{URL}">{Label}</a></li>{/block:Pages}{/block:HasPages}
+        {/block:IfShowPagesInHeader}
+        {block:IfShowRSSInHeader}<li><a href="{RSS}">{lang:RSS}</a></li>{/block:IfShowRSSInHeader}
+      </ul>
+    </nav>
+  </header>
+  {/block:IfShowHeader}
 
-<!--headernav-->
+  {block:TagPage}
+  <p>Posts tagged &ldquo;{Tag}&rdquo;</p>
+  {/block:TagPage}
 
+  {block:SearchPage}
+  <p>{lang:SearchResultsForSearchQuery2}</p>
+  {/block:SearchPage}
 
-{/block:IfShowArchiveInHeader}
-					{block:IfShowRSSInHeader}<div class="meta"><a href="{RSS}">{lang:RSS}</a></div>{/block:IfShowRSSInHeader}
-				</div>
-			</div>
-		{/block:IfShowHeader}
-		
-		{block:TagPage}
-			<div class="col">
-				<p>Posts tagged with &ldquo;{Tag}&rdquo;</p>
-			</div>
-        {/block:TagPage}
+  <main id="posts" class="stack">
+  {block:Posts}
+    <article class="post" id="post-{PostID}">
 
-	{block:Posts}
-	<div id="post">
+      {block:IfShowPostSeparator}<hr class="separator">{/block:IfShowPostSeparator}
 
-		{block:IfShowPostSeparator}
-		<div class="row">
-			<div class="col">
-				<div class="separator"></div>
-			</div>
-		</div>
-		{/block:IfShowPostSeparator}
+      {block:Text}
+        {block:Title}<h2 class="post-heading"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+        {block:IfShowPostText}<div class="post-body">{Body}</div>{/block:IfShowPostText}
+      {/block:Text}
 
-		<div class="row">
-		{block:Text}
-			{block:Title}
-				<div class="col">
-					<div class="heading">
-						<a href="{Permalink}">{Title}</a>
-					</div>
-				</div>
-			{/block:Title}
-		{/block:Text}
-			
-		{block:Chat}
-			{block:Title}
-				<div class="col">
-					<div class="heading">
-						<a href="{Permalink}">{Title}</a>
-					</div>
-				</div>
-			{/block:Title}
-		{/block:Chat}
+      {block:Answer}
+        <div class="question">
+          <div class="asker">{Asker} asked:</div>
+          {Question}
+        </div>
+        <div class="post-body">{Answer}</div>
+      {/block:Answer}
 
-		{block:Quote}
-			<div class="col">
-				<div class="heading">
-					<a href="{Permalink}">&ldquo;{Quote}&rdquo;</a>
-				</div>
-			</div>
-		{/block:Quote}
+      {block:Quote}
+        <h2 class="post-heading"><a href="{Permalink}">&ldquo;{Quote}&rdquo;</a></h2>
+        {block:Source}<div class="post-body">{Source}</div>{/block:Source}
+      {/block:Quote}
 
-		{block:Link}
-			<div class="col">
-				<div class="heading">
-					<a href="{URL}" {Target}>&#149; {Name}</a>
-				</div>
-			</div>
-		{/block:Link}
+      {block:Link}
+        <h2 class="post-heading"><a href="{URL}" {Target}>&#149; {Name}</a></h2>
+        {block:IfShowPostDescriptions}
+          {block:Description}<div class="post-body">{Description}</div>{/block:Description}
+        {/block:IfShowPostDescriptions}
+      {/block:Link}
 
-		{block:Photo}
-			<div class="media">
-			{LinkOpenTag}
-				<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
-			{LinkCloseTag}
-			</div>
-		{/block:Photo}
+      {block:Chat}
+        {block:Title}<h2 class="post-heading"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+        <div class="post-body">
+          <p>{block:Lines}{block:Label}<strong>{Label}</strong> {/block:Label}{Line}<br>{/block:Lines}</p>
+        </div>
+      {/block:Chat}
 
-		{block:Photoset}
-			{block:Photos}
-				<div class="media">
-				{LinkOpenTag}
-					<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}"/>
-				{LinkCloseTag}
-				</div>
-			{/block:Photos}
-		{/block:Photoset}
+      {block:Photo}
+        <div class="media">
+          {LinkOpenTag}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" loading="lazy">{LinkCloseTag}
+        </div>
+      {/block:Photo}
 
-		{block:Audio}
-			<div class="media">
-				<div class="audio">
-					{block:IfShowAlbumArt}
-						{block:AlbumArt}
-							<img src="{AlbumArtURL}" />
-						{/block:AlbumArt}
-					{/block:IfShowAlbumArt}
-				{AudioPlayerBlack}
-				</div>
-			</div>
-		{/block:Audio}
+      {block:Photoset}
+        {block:Photos}
+        <div class="media">
+          {LinkOpenTag}<img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" loading="lazy">{LinkCloseTag}
+        </div>
+        {/block:Photos}
+      {/block:Photoset}
 
-		{block:Video}
-			<div class="media">
-				{Video-500}
-			</div>
-		{/block:Video}
+      {block:Audio}
+        <div class="media">
+          <div class="audio-player">
+            {block:IfShowAlbumArt}
+              {block:AlbumArt}<img src="{AlbumArtURL}" alt="" loading="lazy">{/block:AlbumArt}
+            {/block:IfShowAlbumArt}
+            {block:AudioPlayer}{AudioPlayer}{/block:AudioPlayer}
+          </div>
+        </div>
+      {/block:Audio}
 
-		{block:IfShowPostText}
-			{block:Text}
-				<div class="col">
-					{Body}
-				</div>
-			{/block:Text}
-		{/block:IfShowPostText}
-		
-		{block:IfShowPostCaptions}
-			{block:Caption}
-				<div class="col">
-					{Caption}
-				</div>
-			{/block:Caption}
-		{/block:IfShowPostCaptions}
-		
-		{block:Quote}
-			{block:Source}
-				<div class="col">
-					<p>{Source}</p>
-				</div>
-			{/block:Source}
-		{/block:Quote}
+      {block:Video}
+        <div class="media">{Video-500}</div>
+      {/block:Video}
 
-		{block:IfShowPostDescriptions}
-			{block:Link}
-				{block:Description}
-					<div class="col">
-						{Description}
-					</div>
-				{/block:Description}
-			{/block:Link}
-		{/block:IfShowPostDescriptions}
+      {block:IfShowPostCaptions}
+        {block:Caption}<div class="post-body">{Caption}</div>{/block:Caption}
+      {/block:IfShowPostCaptions}
 
-		{block:Chat}
-			<div class="col">
-				<p>{block:Lines}{block:Label}{Label} {/block:Label}{Line}<br/>{/block:Lines}</p>
-			</div>
-		{/block:Chat}
+      {block:IfShowPostMeta}
+      <footer class="post-meta">
+        {block:Audio}
+          {block:TrackName}<span>Track: {TrackName}</span>{/block:TrackName}
+          {block:Artist}<span>Artist: {Artist}</span>{/block:Artist}
+          {block:Album}<span>Album: {Album}</span>{/block:Album}
+        {/block:Audio}
 
-		{block:IfShowPostMeta}
-		<div class="col">
-			<div class="postmeta">
+        {block:IndexPage}
+          {block:IfShowDateInPosts}
+            {block:Date}
+            <a href="{Permalink}">
+              <time datetime="{Year}-{MonthNumberWithZero}-{DayOfMonthWithZero}">{DayOfMonthWithZero}&#9585;{MonthNumberWithZero}&#9585;{ShortYear}</time>
+            </a>
+            {/block:Date}
+          {/block:IfShowDateInPosts}
+        {/block:IndexPage}
 
-			{block:Audio}
-				{block:TrackName}<div class="meta">Track&#58; {TrackName}</div>{/block:TrackName}
-				{block:Artist}<div class="meta">Artist&#58; {Artist}</div>{/block:Artist}
-				{block:Album}<div class="meta">Album&#58; {Album}</div>{/block:Album}
-				<div class="clear"></div>
-			{/block:Audio}
+        {block:IfShowPostTags}
+          {block:HasTags}
+            <span>Tags:</span>
+            {block:Tags}<a href="{TagURL}" class="tag">{Tag}</a>{/block:Tags}
+          {/block:HasTags}
+        {/block:IfShowPostTags}
 
-			{block:IndexPage}
-				{block:IfShowDateInPosts}
-					{block:Date}
-						<div class="meta"><a href="{Permalink}">{DayOfMonthWithZero}&#9585;{MonthNumberWithZero}&#9585;{ShortYear}</a></div>
-					{/block:Date}
-				{/block:IfShowDateInPosts}
-			{/block:IndexPage}
+        {block:IfShowNoteCountInPosts}
+          <a href="{Permalink}">Permalink</a>
+          {block:NoteCount}<span>{NoteCountWithLabel}</span>{/block:NoteCount}
+        {/block:IfShowNoteCountInPosts}
 
-                {block:IfShowPostTags}
-				{block:HasTags}
-					<div class="meta">Tags:</div>
-					{block:Tags}
-						<div class="meta"><a href="{TagURL}" class="tag">{Tag}</a></div>
-					{/block:Tags}
-				{/block:HasTags}
-                {/block:IfShowPostTags}
+        {block:IfShowContentSourceInPosts}
+          {block:ContentSource}
+            <span>Source:</span>
+            <a href="{SourceURL}">{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}</a>
+          {/block:ContentSource}
+        {/block:IfShowContentSourceInPosts}
 
-			{block:IfShowNoteCountInPosts}
-				{block:NoteCount}
-		<!--			<div class="meta">{lang:Notes}</div>-->
-					<div class="meta"><a href="{Permalink}">Permalink</a></div>
-				{/block:NoteCount}
-			{/block:IfShowNoteCountInPosts}
-			
-			
-	
-			
+        <span class="post-actions">{ReblogButton}{LikeButton}</span>
+      </footer>
+      {/block:IfShowPostMeta}
 
-			{block:IfShowContentSourceInPosts}
-				{block:ContentSource}
-					<div class="meta">Source:</div>
-					<div class="meta"><a href="{SourceURL}">{block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}</a></div>
-				{/block:ContentSource}
-			{/block:IfShowContentSourceInPosts}
-						
-					</div>
+    </article>
 
-<div class="like-reblog">
-   <li>{ReblogButton}</li>
-      <li>{LikeButton}</li>
+    {block:PermalinkPage}
+      {block:IfShowNotesInPosts}
+        {block:PostNotes}<div class="notes">{PostNotes}</div>{/block:PostNotes}
+      {/block:IfShowNotesInPosts}
+    {/block:PermalinkPage}
+  {/block:Posts}
+  </main>
+
+  {block:IndexPage}
+    {block:Pagination}
+    <nav class="pagination" id="pagination">
+      {block:PreviousPage}<a href="{PreviousPage}" class="prev" rel="prev">Previous Page</a>{/block:PreviousPage}
+      {block:NextPage}<a href="{NextPage}" class="next" rel="next">Next Page</a>{/block:NextPage}
+    </nav>
+    {/block:Pagination}
+    <p class="infinite-status" id="infinite-status" role="status" aria-live="polite" hidden></p>
+  {/block:IndexPage}
+
+  {block:PermalinkPage}
+    {block:PermalinkPagination}
+    <nav class="pagination">
+      {block:PreviousPost}<a href="{PreviousPost}" rel="prev">Previous Post</a>{/block:PreviousPost}
+      {block:NextPost}<a href="{NextPost}" rel="next">Next Post</a>{/block:NextPost}
+    </nav>
+    {/block:PermalinkPagination}
+  {/block:PermalinkPage}
+
+  {block:IfShowBottom}
+  <footer class="site-footer">
+    {block:IfShowPostSeparator}<hr class="separator">{/block:IfShowPostSeparator}
+    {text:Bottom Copy}
+  </footer>
+  {/block:IfShowBottom}
+
 </div>
-			</div>
-		</div>
-		{/block:IfShowPostMeta}
 
-		</div>
+{block:IfShowScrollToTopButton}
+<button type="button" class="to-top" id="to-top" aria-label="ページ上部へ戻る">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 8h-4v6h-6v-6H5z"/></svg>
+</button>
+{/block:IfShowScrollToTopButton}
 
+<script>
+(function () {
+  'use strict';
 
-		
-	{/block:Posts}
+  /* ---------- トップへ戻る ---------- */
+  var toTop = document.getElementById('to-top');
+  if (toTop) {
+    var toggle = function () {
+      toTop.classList.toggle('is-visible', window.scrollY > 300);
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
 
-		{block:IndexPage}
-			{block:Pagination}
-				<div id="pagination">
-				<div class="row">
-				<div class="col">
-					{block:PreviousPage}<a href="{PreviousPage}" class="prev">Previous Page</a>{/block:PreviousPage}
-					{block:NextPage}<a href="{NextPage}" class="next">Next Page</a>{/block:NextPage}
-				</div>
-				</div>
-				</div>
-			{/block:Pagination}
-		{/block:IndexPage}
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
-		{block:PermalinkPage}
-			{block:PermalinkPagination}
-				<div class="row">
-				<div class="col">
-					{block:PreviousPost}<a href="{PreviousPost}" class="prev">Previous Post</a>{/block:PreviousPost}
-					{block:NextPost}<a href="{NextPost}" class="next">Next Post</a>{/block:NextPost}
-				</div>
-				</div>
-			{/block:PermalinkPagination}
-		{/block:PermalinkPage}
-		
-		{block:PermalinkPage}
-			{block:IfShowNotesInPosts}
-				{block:PostNotes}
-					<div class="row">
-					<div class="col">
-						<div class="notes">
-							<div class="meta">{PostNotes}</div>
-						</div>
-					</div>
-					</div>
-				{/block:PostNotes}
-			{/block:IfShowNotesInPosts}
-		{/block:PermalinkPage}
+  {block:IfShowEndlessScrolling}
+  {block:IndexPage}
+  /* ---------- 無限スクロール（jQuery不要） ---------- */
+  var container = document.getElementById('posts');
+  var pagination = document.getElementById('pagination');
+  var status = document.getElementById('infinite-status');
+  var nextLink = pagination ? pagination.querySelector('.next') : null;
+  var nextUrl = nextLink ? nextLink.href : null;
+  var busy = false;
 
-	</div>
+  if (container && nextUrl && 'IntersectionObserver' in window) {
+    pagination.hidden = true;
 
-		{block:IfShowBottom}
-			<div class="bottom">
-				<div class="row">
-					<div class="col">
-						{block:IfShowPostSeparator}
-							<div class="separator"></div>
-						{/block:IfShowPostSeparator}	
-            			<div class="signoff">{text:Bottom Copy}</div>
-        			</div>
-        		</div>
-			</div>
-		{/block:IfShowBottom}
+    var say = function (text) {
+      if (!status) return;
+      status.textContent = text;
+      status.hidden = !text;
+    };
 
-			{block:IfShowScrollToTopButton}
-				<div class="navup">
-					<a href="#top" class="scroll"></a>
-				</div>
-			{/block:IfShowScrollToTopButton}
-		
+    var sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    container.after(sentinel);
 
-<!--    <script type="text/javascript" src="https://static.tumblr.com/zx46hge/K0Opves4p/liliy.js"></script> -->
-	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/nq2ly5vr1/jquery.1.7.1.min.js"></script>
-	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/T9Vm8v9dm/jquery.fitvids.js"></script>
-	<script type="text/javascript" src="https://static.tumblr.com/9snku1k/bQtlxyt6n/jquery.infinitescroll.js"></script>
-	<script type="text/javascript">
-	(function($) {
-		$(function () {
-			$("#wrapper").fitVids();
-		});
+    var load = function () {
+      if (busy || !nextUrl) return;
+      busy = true;
+      say('読み込み中…');
 
-		$(function () {
-			$(".navup").hide();
-				$(function () {
-				$(window).scroll(function () {
-					if ($(this).scrollTop() > 300) {
-						$('.navup').fadeIn();
-					} else {
-						$('.navup').fadeOut();
-					}
-				});
-				$('.navup a').click(function () {
-					$('body,html').animate({
-						scrollTop: 0
-					}, 300);
-					return false;
-				});
-			});
-		});
+      fetch(nextUrl, { credentials: 'same-origin' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.text();
+        })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var posts = doc.querySelectorAll('#posts > .post');
 
-		{block:IfShowEndlessScrolling}
-    	{block:IndexPage}
-    		$(function() {
-				$('#wrapper').infinitescroll({
-					navSelector: '#pagination',
-					nextSelector: '.next',
-					itemSelector: '#wrapper > #post',
-						loading: {
-						img: false,
-						msgText: '<div class="row"><div class="col">Loading...</div></div>',
-						finishedMsg: '<div class="row"><div class="col">The End.</div></div>'
-						}
-					},
-					function(arrayOfNewElems)
-					{
-				$("#wrapper").fitVids();
-			});
-		});
-		{/block:IndexPage}
-    	{/block:IfShowEndlessScrolling}
-    })(jQuery);
-	</script>
+          posts.forEach(function (post) {
+            if (!document.getElementById(post.id)) container.appendChild(post);
+          });
+
+          var next = doc.querySelector('#pagination .next');
+          nextUrl = next ? next.href : null;
+
+          if (!nextUrl) {
+            say('The End.');
+            observer.disconnect();
+          } else {
+            say('');
+          }
+          busy = false;
+        })
+        .catch(function () {
+          say('読み込みに失敗しました。');
+          pagination.hidden = false;
+          observer.disconnect();
+          busy = false;
+        });
+    };
+
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) load();
+    }, { rootMargin: '400px' });
+
+    observer.observe(sentinel);
+  }
+  {/block:IndexPage}
+  {/block:IfShowEndlessScrolling}
+})();
+</script>
 </body>
 </html>
