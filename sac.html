@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link rel="shortcut icon" href="{Favicon}">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="{RSS}">
 
-<!-- ===== カラー ===== -->
+<!-- ===== Colors ===== -->
 <meta name="color:Background Color" content="#ffffff">
 <meta name="color:Page Background Color" content="#ffffff">
 <meta name="color:Body Color" content="#333333">
@@ -23,16 +23,15 @@
 <meta name="color:Navigation Hover Color" content="#333333">
 <meta name="color:Title Glow Color" content="#dddddd">
 
-<!-- ===== 画像 ===== -->
+<!-- ===== Images ===== -->
 <meta name="image:Header" content="">
 
-<!-- ===== フォント（末尾のセミコロン禁止） ===== -->
+<!-- ===== Fonts (never end these values with a semicolon) ===== -->
 <meta name="font:Body Font" content="Helvetica Neue">
 <meta name="font:Heading Font" content="Helvetica Neue">
 <meta name="font:Meta Font" content="Helvetica Neue">
-<meta name="font:Title Font" content="Georgia">
 
-<!-- ===== 表示切り替え ===== -->
+<!-- ===== Toggles ===== -->
 <meta name="if:Show Header" content="1">
 <meta name="if:Show Blog Title" content="1">
 <meta name="if:Show Blog Description" content="1">
@@ -55,19 +54,20 @@
 <meta name="if:Show Image Hover Effect" content="1">
 <meta name="if:Show Heading In Uppercase" content="0">
 <meta name="if:Show Heading In Bold" content="0">
-<meta name="if:Show Title Glow" content="1">
+<meta name="if:Show Hover Glow" content="1">
 <meta name="if:Show Scroll To Top Button" content="1">
 <meta name="if:Show Custom Scroll Bar" content="1">
 <meta name="if:Center Align Page" content="0">
 <meta name="if:Center Align Text" content="0">
 
-<!-- ===== 数値 ===== -->
+<!-- ===== Measurements ===== -->
 <meta name="text:Body Font Size" content="18">
 <meta name="text:Body Line Height" content="22">
 <meta name="text:Paragraph Spacing" content="25">
 <meta name="text:Heading Font Size" content="24">
 <meta name="text:Heading Line Height" content="26">
 <meta name="text:Title Font Size" content="90">
+<meta name="text:Title Left Nudge" content="0">
 <meta name="text:Meta Font Size" content="14">
 <meta name="text:Meta Line Height" content="18">
 <meta name="text:Media Spacing" content="10">
@@ -80,7 +80,7 @@
 
 <style>
 /* =========================================================
-   1. トークン
+   1. Tokens
    ========================================================= */
 :root{
   --bg:              {color:Background Color};
@@ -98,13 +98,13 @@
   --font-body:       {font:Body Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-heading:    {font:Heading Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-meta:       {font:Meta Font}, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-title:      {font:Title Font}, Georgia, "Times New Roman", serif;
 
   --size-body:       {text:Body Font Size}px;
   --lh-body:         {text:Body Line Height}px;
   --size-heading:    {text:Heading Font Size}px;
   --lh-heading:      {text:Heading Line Height}px;
   --size-title:      {text:Title Font Size}px;
+  --nudge-title:     {text:Title Left Nudge}px;
   --size-meta:       {text:Meta Font Size}px;
   --lh-meta:         {text:Meta Line Height}px;
 
@@ -122,7 +122,7 @@
 }
 
 /* =========================================================
-   2. ベース
+   2. Base
    ========================================================= */
 *,*::before,*::after{ box-sizing:border-box; }
 
@@ -153,18 +153,18 @@ ol{ list-style:decimal; }
 blockquote{
   margin:0 0 15px;
   padding-left:15px;
-  border-left:2px solid var(--rule);
+  border-left:0;
 }
 
 img,video{ max-width:100%; height:auto; display:block; }
 
 iframe,embed,object{ max-width:100%; border:0; }
 
-/* fitVids の代わり：埋め込み動画を比率維持でレスポンシブに */
+/* Replaces fitVids: keeps embeds responsive at a fixed ratio */
 .media iframe{ width:100%; aspect-ratio:16/9; height:auto; }
 
 /* =========================================================
-   3. リンク
+   3. Links
    ========================================================= */
 a{
   color:var(--link);
@@ -174,7 +174,12 @@ a{
 a:hover,
 a:focus-visible{ color:var(--link-hover); }
 
-/* キーボード操作のフォーカスは必ず見せる */
+{block:IfShowHoverGlow}
+/* The original applied this glow to every link, not just the title */
+a:hover{ text-shadow:-1px 1px 5px var(--glow), 1px -1px 5px #fff; }
+{/block:IfShowHoverGlow}
+
+/* Always show the focus ring for keyboard users */
 :focus-visible{
   outline:2px solid var(--link);
   outline-offset:2px;
@@ -191,7 +196,7 @@ a:hover img{ opacity:0.8; }
 }
 
 /* =========================================================
-   4. レイアウト
+   4. Layout
    ========================================================= */
 .wrapper{
   max-width:var(--page-width);
@@ -213,36 +218,53 @@ a:hover img{ opacity:0.8; }
 }
 
 /* =========================================================
-   5. ヘッダー
+   5. Header
    ========================================================= */
 .site-header{ margin-bottom:var(--space-post); }
 
 .site-title{
   margin:0 0 5px;
-  font-family:var(--font-title);
+  font-family:var(--font-heading);
   font-size:var(--size-title);
   line-height:1.1;
   font-weight:700;
+  /* Aligns the glyph edge with the text below; adjust per font */
+  margin-left:var(--nudge-title);
   word-break:break-word;
 }
 .site-title a{
-  color:var(--fg);
+  color:#222;
   text-decoration:none;
   transition:color var(--ease), text-shadow var(--ease);
 }
-{block:IfShowTitleGlow}
+{block:IfShowHoverGlow}
 .site-title a:hover{
   color:#fff;
   text-shadow:-1px 1px 5px var(--glow), 1px -1px 5px #fff;
 }
-{/block:IfShowTitleGlow}
+{/block:IfShowHoverGlow}
 
 .site-description{ margin:0 0 10px; }
+/* The description is user-entered HTML, so strip any inherited indentation
+   and let it sit flush with the title and the nav */
+.site-description,
+.site-description > *,
+.site-description blockquote,
+.site-description ul,
+.site-description ol{
+  margin-left:0;
+  padding-left:0;
+  border-left:0;
+  text-indent:0;
+  list-style-position:inside;
+}
+.site-description > *:first-child{ margin-top:0; }
+.site-description > *:last-child{ margin-bottom:0; }
 
 .site-nav{
   display:flex;
   flex-wrap:wrap;
-  gap:5px 12px;
+  gap:5px;
   margin:0;
   padding:0;
   list-style:none;
@@ -263,7 +285,7 @@ a:hover img{ opacity:0.8; }
 {/block:IfCenterAlignPage}
 
 /* =========================================================
-   6. 投稿
+   6. Posts
    ========================================================= */
 .post{ margin:0; }
 .post + .post{ margin-top:var(--space-post); }
@@ -277,7 +299,12 @@ a:hover img{ opacity:0.8; }
   {block:IfShowHeadingInUppercase}text-transform:uppercase;{/block:IfShowHeadingInUppercase}
   {block:IfShowHeadingInBold}font-weight:bold;{/block:IfShowHeadingInBold}
 }
-.post-heading a{ text-decoration:none; }
+.post-heading a{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:35px;
+  line-height:1.2;
+  text-decoration:none;
+}
 
 .media + .media{ margin-top:var(--space-media); }
 .media + .post-body{ margin-top:var(--space-media); }
@@ -285,7 +312,7 @@ a:hover img{ opacity:0.8; }
 .media img{ margin-inline:auto; }
 {/block:IfCenterAlignPage}
 
-.audio-player{ max-width:500px; }
+.audio-player{ max-width:300px; }
 {block:IfCenterAlignPage}
 .audio-player{ margin-inline:auto; }
 {/block:IfCenterAlignPage}
@@ -293,12 +320,12 @@ a:hover img{ opacity:0.8; }
 .question{ margin:0 0 var(--space-para); }
 .asker{ font-family:var(--font-meta); font-size:var(--size-meta); color:var(--meta); }
 
-/* --- メタ情報 --- */
+/* --- Post meta --- */
 .post-meta{
   display:flex;
   flex-wrap:wrap;
   align-items:center;
-  gap:5px 10px;
+  gap:5px;
   margin-top:10px;
   font-family:var(--font-meta);
   font-size:var(--size-meta);
@@ -323,7 +350,7 @@ a:hover img{ opacity:0.8; }
 {/block:IfCenterAlignText}
 
 /* =========================================================
-   7. ページ送り・ノート・フッター
+   7. Pagination, notes, footer
    ========================================================= */
 .pagination{
   display:flex;
@@ -344,6 +371,7 @@ a:hover img{ opacity:0.8; }
 .notes ol,.notes ul{ list-style:none; margin:0; padding:0; }
 .notes img.avatar{ display:none; }
 .notes li{ margin-bottom:5px; }
+.notes li.more_notes_link_container{ padding-top:30px; }
 
 .site-footer{
   margin-top:var(--space-post);
@@ -355,33 +383,28 @@ a:hover img{ opacity:0.8; }
 .site-footer a{ color:var(--meta); }
 
 /* =========================================================
-   8. トップへ戻る
+   8. Back to top
    ========================================================= */
 .to-top{
   position:fixed;
   right:var(--pad-page);
   bottom:var(--pad-page);
   z-index:99;
-  display:grid;
-  place-items:center;
   width:40px;
   height:40px;
   padding:0;
   border:0;
   border-radius:10px 10px 0 0;
-  background:var(--nav);
-  color:var(--page-bg);
+  background:transparent url(https://static.tumblr.com/dt4ynlt/dFknhz2ib/bkt.png) no-repeat center center;
   cursor:pointer;
   opacity:0;
   visibility:hidden;
   transition:opacity var(--ease), visibility var(--ease), background var(--ease);
 }
 .to-top.is-visible{ opacity:1; visibility:visible; }
-.to-top:hover{ background:var(--nav-hover); }
-.to-top svg{ width:18px; height:18px; fill:currentColor; }
 
 /* =========================================================
-   9. 読み込み表示
+   9. Loading status
    ========================================================= */
 .infinite-status{
   margin-top:var(--space-post);
@@ -392,7 +415,7 @@ a:hover img{ opacity:0.8; }
 .infinite-status[hidden]{ display:none; }
 
 /* =========================================================
-   10. スクロールバー
+   10. Scrollbar
    ========================================================= */
 {block:IfShowCustomScrollBar}
 html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
@@ -404,7 +427,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 {/block:IfShowCustomScrollBar}
 
 /* =========================================================
-   11. モバイル
+   11. Mobile
    ========================================================= */
 @media (max-width:768px){
   :root{
@@ -414,7 +437,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 }
 
 /* =========================================================
-   12. 印刷
+   12. Print
    ========================================================= */
 @media print{
   .to-top,.site-nav,.post-actions,.pagination{ display:none; }
@@ -458,15 +481,15 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 
     <nav>
       <ul class="site-nav">
+        {block:IfShowPagesInHeader}
+          {block:HasPages}{block:Pages}<li><a href="{URL}">{Label}</a></li>{/block:Pages}{/block:HasPages}
+        {/block:IfShowPagesInHeader}
         {block:IfShowArchiveInHeader}
         <li><a href="/">Home</a></li>
         <li><a href="/archive">Archive</a></li>
         <li><a href="/random">Random</a></li>
         {block:AskEnabled}<li><a href="/ask">{AskLabel}</a></li>{/block:AskEnabled}
         {/block:IfShowArchiveInHeader}
-        {block:IfShowPagesInHeader}
-          {block:HasPages}{block:Pages}<li><a href="{URL}">{Label}</a></li>{/block:Pages}{/block:HasPages}
-        {/block:IfShowPagesInHeader}
         {block:IfShowRSSInHeader}<li><a href="{RSS}">{lang:RSS}</a></li>{/block:IfShowRSSInHeader}
       </ul>
     </nav>
@@ -515,7 +538,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
       {block:Chat}
         {block:Title}<h2 class="post-heading"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
         <div class="post-body">
-          <p>{block:Lines}{block:Label}<strong>{Label}</strong> {/block:Label}{Line}<br>{/block:Lines}</p>
+          <p>{block:Lines}{block:Label}{Label} {/block:Label}{Line}<br>{/block:Lines}</p>
         </div>
       {/block:Chat}
 
@@ -539,7 +562,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
             {block:IfShowAlbumArt}
               {block:AlbumArt}<img src="{AlbumArtURL}" alt="" loading="lazy">{/block:AlbumArt}
             {/block:IfShowAlbumArt}
-            {block:AudioPlayer}{AudioPlayer}{/block:AudioPlayer}
+            {AudioPlayerBlack}
           </div>
         </div>
       {/block:Audio}
@@ -579,7 +602,6 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 
         {block:IfShowNoteCountInPosts}
           <a href="{Permalink}">Permalink</a>
-          {block:NoteCount}<span>{NoteCountWithLabel}</span>{/block:NoteCount}
         {/block:IfShowNoteCountInPosts}
 
         {block:IfShowContentSourceInPosts}
@@ -632,16 +654,14 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 </div>
 
 {block:IfShowScrollToTopButton}
-<button type="button" class="to-top" id="to-top" aria-label="ページ上部へ戻る">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 8h-4v6h-6v-6H5z"/></svg>
-</button>
+<button type="button" class="to-top" id="to-top" aria-label="Back to top"></button>
 {/block:IfShowScrollToTopButton}
 
 <script>
 (function () {
   'use strict';
 
-  /* ---------- トップへ戻る ---------- */
+  /* ---------- Back to top ---------- */
   var toTop = document.getElementById('to-top');
   if (toTop) {
     var toggle = function () {
@@ -657,7 +677,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
 
   {block:IfShowEndlessScrolling}
   {block:IndexPage}
-  /* ---------- 無限スクロール（jQuery不要） ---------- */
+  /* ---------- Infinite scroll (no jQuery) ---------- */
   var container = document.getElementById('posts');
   var pagination = document.getElementById('pagination');
   var status = document.getElementById('infinite-status');
@@ -681,7 +701,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
     var load = function () {
       if (busy || !nextUrl) return;
       busy = true;
-      say('読み込み中…');
+      say('Loading…');
 
       fetch(nextUrl, { credentials: 'same-origin' })
         .then(function (res) {
@@ -708,7 +728,7 @@ html{ scrollbar-width:thin; scrollbar-color:var(--nav) var(--bg); }
           busy = false;
         })
         .catch(function () {
-          say('読み込みに失敗しました。');
+          say('Could not load more posts.');
           pagination.hidden = false;
           observer.disconnect();
           busy = false;
